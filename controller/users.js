@@ -69,4 +69,31 @@ const deleteUserById = (req, res) => {
     }
 }
 
-module.exports = { getAllUsers, createNewUser , updateUserById , deleteUserById}
+
+const findOrCreateUser = async (profile, done) => {
+    try {
+    // Use the profile information to create or find the user in your database
+    const user = {
+        uid: profile.id,
+        displayName: profile.displayName,
+        email: profile.emails[0].value,
+        // Add more user properties as needed
+    };
+
+    // Check if the user already exists in the database
+    const existingUser = await UserModel.getUserByEmail(user.email);
+
+    if (!existingUser) {
+      // If the user doesn't exist, create a new user
+        await UserModel.createNewUser(user);
+    }
+
+    // Invoke the done callback with the user information
+    done(null, user);
+} catch (error) {
+    // Handle errors appropriately
+    done(error);
+}
+};
+
+module.exports = { getAllUsers, createNewUser , updateUserById , deleteUserById, findOrCreateUser}
