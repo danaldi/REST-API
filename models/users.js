@@ -23,6 +23,11 @@ const getUserByEmail = async (email) => {
     const [rows] = await dbPool.query('SELECT * FROM users WHERE email = ?', email);
     return rows[0];
   };
+
+  const createNewUserGoogle = (body) => {
+    const SQLQuery = `INSERT INTO users (name, email) VALUES ('${body.name}', '${body.email}')`;
+    return dbPool.execute(SQLQuery);
+}
   
   module.exports = {
     getAllUsers,
@@ -30,5 +35,6 @@ const getUserByEmail = async (email) => {
     updateUserById,
     deleteUserById,
     getUserByEmail, 
+    createNewUserGoogle
   };
   
