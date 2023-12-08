@@ -26,7 +26,7 @@ passport.use(new GoogleStrategy({
     clientID: process.env.YOUR_GOOGLE_CLIENT_ID,
     clientSecret: process.env.YOUR_GOOGLE_CLIENT_SECRET,
     //callbackURL: 'http://localhost:5000/auth/google/callback', -> local
-    callbackURL: 'http://auth.saddan.my.id:8443/auth/google/callback', // -> production
+    callbackURL: 'http://auth.saddan.my.id:5000/auth/google/callback', // -> production
   },
   (accessToken, refreshToken, profile, done) => {
     // Use profile information to create or update user in your database
@@ -62,7 +62,7 @@ app.get('/profile', (req, res) => {
   // Ensure user is authenticated
   if (req.isAuthenticated()) {
     // Access user information from req.user
-    res.send(`Hello, ${req.user.displayName}!`);
+    res.send(`Hello, ${req.user.name}!`);
   } else {
     res.redirect('/');
   }
